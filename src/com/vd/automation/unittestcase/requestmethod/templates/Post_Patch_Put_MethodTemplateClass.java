@@ -41,9 +41,7 @@ public class Post_Patch_Put_MethodTemplateClass extends AbstractClass {
 				String paramBodyType = extractClassNameFromClassPath(paramAnnotatedClass);
 				String methodParamDataType = paramObject.getMethodParamDataType();
 				if (paramBodyType.equals("RequestBody")) {
-					++beansCount;
 					requestBodyFieldsObject = getRequestBodyFieldsObject(methodParamDataType);
-					hashMap.put(methodParamDataType, paramBodyType);
 				}
 			}
 		}
@@ -126,15 +124,9 @@ public class Post_Patch_Put_MethodTemplateClass extends AbstractClass {
 			out.println("\t\t" + logTestCaseName);
 			// If we want to create body through setter than
 			// ***************************************//
-			if (requestBodyFieldsObject != null && !requestBodyFieldsObject.getClassInstance().equals("List")) {
-				String classInstance = requestBodyFieldsObject.getClassInstance();
-				out.println("\t\t" + classInstance);
+			if (requestBodyFieldsObject != null && !requestBodyFieldsObject.getRequestBodyBeanGetter().equals("List")) {
 				body = "String body = new ObjectMapper().writeValueAsString("
-						+ requestBodyFieldsObject.getClassInstanceName() + ");";
-				List<String> classSetterMethod = requestBodyFieldsObject.getClassSettterCalls();
-				for (int i = 0; i < classSetterMethod.size(); i++) {
-					out.println("\t\t" + classSetterMethod.get(i) + ";");
-				}
+						+ requestBodyFieldsObject.getRequestBodyBeanGetter() + ");";
 				out.println("\t\t" + body);
 			}
 			// ***************************************//
@@ -190,6 +182,7 @@ public class Post_Patch_Put_MethodTemplateClass extends AbstractClass {
 		String jSonObject = "\"{";
 		String className = extractClassNameFromClassPath(requestBodyClassName);
 		// convert ClassName to lowercase to be used as its instance Name;
+		String classInstance = "";
 		String classInstanceName = className.substring(0, 1).toLowerCase() + className.substring(1);
 		String checkIfListClass = getSimpleClassNameFromPackage(requestBodyClassName);
 		if (!checkIfListClass.equals("List") && !checkIfListClass.equals("Map")) {
@@ -212,18 +205,29 @@ public class Post_Patch_Put_MethodTemplateClass extends AbstractClass {
 				listOfClassSetters.add(setterMethodOfClass);
 			}
 			jSonObject += "}\";";
+			classInstance = className + " " + classInstanceName + " = new " + className + "();";
+			getDefaultBeanGetter(className, classInstance, listOfClassSetters);
 			requestBodyFieldsObject.setJsonObject(jSonObject);
-			requestBodyFieldsObject
-					.setClassInstance(className + " " + classInstanceName + " = new " + className + "();");
-			requestBodyFieldsObject.setClassInstanceName(classInstanceName);
-			requestBodyFieldsObject.setClassSettterCalls(listOfClassSetters);
+			String requestBodyBeanGetterName = "get" + className + "()";
+			requestBodyFieldsObject.setRequestBodyBeanGetter(requestBodyBeanGetterName);
 		} else {
 			jSonObject = "\"{[0]}\";";
 			requestBodyFieldsObject.setJsonObject(jSonObject);
-			requestBodyFieldsObject.setClassInstance("List");
-			requestBodyFieldsObject.setClassInstanceName("List");
-			requestBodyFieldsObject.setClassSettterCalls(null);
+			requestBodyFieldsObject.setRequestBodyBeanGetter("List");
 		}
 		return requestBodyFieldsObject;
 	}
+
+	private void getDefaultBeanGetter(String className, String classInstance, List<String> listOfClassSetters) {
+		++beansCount;
+		String beanGetter = "\tprivate " + className + " get" + className + "() {";
+		beanGetter += "\n\t\t" + classInstance;
+		for (int i = 0; i < listOfClassSetters.size(); i++) {
+			beanGetter += "\n\t\t" + listOfClassSetters.get(i) + ";";
+		}
+		beanGetter += "\n\t\treturn " + className.substring(0, 1).toLowerCase() + className.substring(1) + "; \n\t}";
+		// System.out.println(beanGetter);
+		hashMap.put(className, beanGetter);
+	}
+
 }

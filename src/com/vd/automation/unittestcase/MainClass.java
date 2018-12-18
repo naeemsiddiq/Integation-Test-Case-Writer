@@ -49,11 +49,10 @@ public class MainClass extends AbstractClass {
 					populateClassesObject.PopulateClassObject(className, classPackage, methodsObjectList, baseURL));
 		}
 		CreateUnitTestCaseClass unitTestCaseClass = new CreateUnitTestCaseClass();
-		unitTestCaseClass.UnitTestWriterFunction(readClassObjectList);
+//		unitTestCaseClass.UnitTestWriterFunction(readClassObjectList);
 
 		// System.out.println("Total TestCases Written are : " +
 		// totalTestCasesCounter);
 		System.out.println("Total Beans : " + beansCount);
-		System.out.println("HashMap : " + hashMap + "\n length : " + hashMap.size());
 	}
 }

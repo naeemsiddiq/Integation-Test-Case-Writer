@@ -1,7 +1,5 @@
 package com.vd.automation.unittestcase.objects;
 
-import java.util.List;
-
 /**
  * @author Naeem Siddiq
  *
@@ -11,37 +9,12 @@ import java.util.List;
 public class RequestBodyFieldsObject {
 
 	String jsonObject;
-	String classInstance;
-	String classInstanceName;
-	List<String> classSettterCalls;
+	String requestBodyBeanGetter;
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see java.lang.Object#toString()
-	 */
 	@Override
 	public String toString() {
-
-		StringBuilder builder = new StringBuilder();
-		builder.append("[jsonObject=");
-		builder.append(jsonObject);
-		builder.append(", classInstance=");
-		builder.append(classInstance);
-		builder.append(", classInstanceName=");
-		builder.append(classInstanceName);
-		builder.append(", classSettterCalls=");
-		builder.append(classSettterCalls);
-		builder.append("]");
-		return builder.toString();
-	}
-
-	public String getClassInstanceName() {
-		return classInstanceName;
-	}
-
-	public void setClassInstanceName(String classInstanceName) {
-		this.classInstanceName = classInstanceName;
+		return "RequestBodyFieldsObject [jsonObject=" + jsonObject + ", requestBodyBeanGetter=" + requestBodyBeanGetter
+				+ "]";
 	}
 
 	public String getJsonObject() {
@@ -52,20 +25,12 @@ public class RequestBodyFieldsObject {
 		this.jsonObject = jsonObject;
 	}
 
-	public String getClassInstance() {
-		return classInstance;
+	public String getRequestBodyBeanGetter() {
+		return requestBodyBeanGetter;
 	}
 
-	public void setClassInstance(String classInstance) {
-		this.classInstance = classInstance;
-	}
-
-	public List<String> getClassSettterCalls() {
-		return classSettterCalls;
-	}
-
-	public void setClassSettterCalls(List<String> classSettterCalls) {
-		this.classSettterCalls = classSettterCalls;
+	public void setRequestBodyBeanGetter(String requestBodyBeanGetter) {
+		this.requestBodyBeanGetter = requestBodyBeanGetter;
 	}
 
 }

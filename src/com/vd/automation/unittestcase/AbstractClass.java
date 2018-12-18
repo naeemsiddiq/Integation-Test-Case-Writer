@@ -131,6 +131,8 @@ public class AbstractClass {
 			setFieldValue = randomValuesGeneratorClass.getFloatRandomValue();
 		} else if (fieldType.equals("java.lang.Date")) {
 			setFieldValue = randomValuesGeneratorClass.getDateRandomValue();
+		} else if (fieldType.equals("java.lang.Boolean") || fieldType.equals("java.lang.boolean")) {
+			setFieldValue="false";
 		} else
 			setFieldValue = "null";
 		return setFieldValue;

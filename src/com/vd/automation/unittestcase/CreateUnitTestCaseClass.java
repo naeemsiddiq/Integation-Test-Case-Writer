@@ -4,7 +4,9 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.PrintWriter;
+import java.util.HashMap;
 import java.util.List;
+
 import com.vd.automation.unittestcase.objects.MethodsObject;
 import com.vd.automation.unittestcase.objects.ClassesObject;
 import com.vd.automation.unittestcase.requestmethod.templates.Get_Delete_MethodsTemplateClass;
@@ -58,13 +60,17 @@ public class CreateUnitTestCaseClass extends AbstractClass {
 		try (FileWriter fw = new FileWriter(completeClassFilePath, true);
 				BufferedWriter bw = new BufferedWriter(fw);
 				PrintWriter out = new PrintWriter(bw)) {
-			out.println();
+			//to create private methods for all request body objects
+			for (String key : hashMap.keySet()) {
+				out.println(hashMap.get(key));
+			}
 			out.println("}");
 			out.println();
 		} catch (Exception e) {
 			// TODO: handle exception
 		}
 		completeClassFilePath = "";
+		hashMap = new HashMap<>();
 	}
 
 	private void CreateNewFile(String className, String classPackage) throws Exception {

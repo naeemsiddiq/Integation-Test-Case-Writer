@@ -33,15 +33,15 @@ public class PopulateMethodsObject extends AbstractClass {
 	public List<MethodsObject> populateMethodsObject(Class<?> cls) {
 		List<MethodsObject> methodObjectList = new ArrayList<>();
 		List<ParameterObject> paramObjectList;
-		// String className = cls.getName();
-		// System.out.println("Fetched Class Name : " + className);
+		String className = cls.getName();
+		System.out.println("Fetched Class Name : " + className);
 		// getting all methods of class
 		Method[] methods = cls.getDeclaredMethods();
 		for (Method method : methods) {
 			String methodName = method.getName();
 			// camelCasing method name
 			methodName = camelCaseName(methodName);
-			// System.out.println("Fetched Method Name : " + methodName);
+			System.out.println("Fetched Method Name : " + methodName);
 			String methodReturnType = method.getGenericReturnType().getTypeName();
 			// System.out.println("Method Return Type : " + methodReturnType);
 			String requestMethod = "";
@@ -88,7 +88,8 @@ public class PopulateMethodsObject extends AbstractClass {
 			for (Parameter param : parameters) {
 				String paramName = param.getName();
 				ParameterObject paramObject = new ParameterObject();
-				String paramDataType = param.getType().getName();
+				String paramDataType = param.getParameterizedType().getTypeName();
+
 				String annotationName = "null";
 				// System.out.println("Method Parameters " + "\t" +
 				// param.getName() + "\t" + paramDataType);
@@ -103,6 +104,7 @@ public class PopulateMethodsObject extends AbstractClass {
 							if (!paramValue.equals(""))
 								paramName = paramValue;
 						}
+						System.out.println("Param Data Type ::::::::::::::::: " + paramDataType);
 						paramObject.setParameterName(paramName);
 						paramObject.setMethodParamDataType(paramDataType);
 						paramObject.setMethodParamAnnotation(annotationName);
